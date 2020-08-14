@@ -1,11 +1,11 @@
+import axios from 'axios'
 const URL = 'https://jsonplaceholder.typicode.com/todos'
 
 export const getAllTodos = async () => {
 	try {
-		const todos = await fetch('https://jsonplaceholder.typicode.com/todos?_limit=15')
-		const todosJSON = await todos.json()
+		const todos = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=15')
 		
-		return todosJSON
+		return todos.data
 	} catch(err) {
 		console.error(err)
 	}
@@ -18,17 +18,9 @@ export const createNewTodo = async (title) => {
 	}
 
 	try {
-		const todo = await fetch(URL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'Application/json'
-			},
-			body: JSON.stringify(newTodo)
-		})
+		const todo = await axios.post(URL, newTodo)
 
-		const todoJSON = await todo.json()
-
-		return todoJSON
+		return todo.data
 	} catch(err) {
 		console.error(err)
 	}
@@ -36,11 +28,7 @@ export const createNewTodo = async (title) => {
 
 export const deleteExistedTodo = async (id) => {
 	try {
-		const todo = await fetch(`${URL}/${id}`, {
-			method: 'DELETE'
-		})
-
-		await todo.json()
+		const todo = await axios.delete(`${URL}/${id}`)
 
 		return id
 	} catch(err) {
@@ -58,17 +46,9 @@ export const updateExistedTodo = async ({title, current}) => {
 	}
 
 	try {
-		const todo = await fetch(`${URL}/${id}`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'Application/json'
-			},
-			body: JSON.stringify(updatedTodo)
-		})
+		const todo = await axios.patch(`${URL}/${id}`, updatedTodo)
 
-		const todoJSON = await todo.json()
-
-		return todoJSON
+		return todo.data
 	} catch(err) {
 		console.error(err)
 	}
@@ -82,17 +62,9 @@ export const checkExistedTodo = async (todo) => {
 	}
 
 	try {
-		const updatedTodo = await fetch(`${URL}/${todo.id}`, {
-			method: 'PUT',
-			headers: {
-				'Content-Type': 'Application/json'
-			},
-			body: JSON.stringify(existedTodo)
-		})
-
-		const todoJSON = await updatedTodo.json()
-
-		return todoJSON
+		const updatedTodo = await axios.patch(`${URL}/${todo.id}`, existedTodo)
+		
+		return updatedTodo.data
 	} catch(err) {
 		console.error(err)
 	}

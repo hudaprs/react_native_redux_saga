@@ -10,13 +10,14 @@ import FontAwesome from 'react-native-vector-icons/dist/FontAwesome'
 import TodoStack from './TodoStack'
 import AboutStack from './AboutStack'
 
-const BottomTab = () => {
+const BottomTabHome = () => {
 	return (
 		<Tab.Navigator
 			tabBarOptions={{
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
       }}
+      initialRouteName="Home"
 		>
 			<Tab.Screen 
 				name="Todo" 
@@ -40,4 +41,4 @@ const BottomTab = () => {
 	)
 }
 
-export default BottomTab
+export default BottomTabHome

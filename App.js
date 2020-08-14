@@ -9,7 +9,7 @@
 import React from 'react';
 
 // Navigations
-import RootNavigation from '@navigations/Root'
+import RootStackNavigation from '@navigations/RootStackNavigation'
 
 // Redux
 import { Provider } from 'react-redux'
@@ -18,7 +18,7 @@ import store from '@redux/store'
 const App = () => {
   return (
     <Provider store={store}>
-      <RootNavigation />
+      <RootStackNavigation />
     </Provider>
   );
 };

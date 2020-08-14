@@ -5,16 +5,17 @@ import { createStackNavigator } from '@react-navigation/stack'
 const Stack = createStackNavigator()
 
 // Navigations
-import BottomTab from './BottomTab'
+import TodoStack from './TodoStack'
+import DrawerNavigation from './DrawerNavigation'
 
-const Root = () => {
+const RootStackNavigation = () => {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator headerMode="none">
-				<Stack.Screen name="App" component={BottomTab} /> 
+				<Stack.Screen name="App" component={DrawerNavigation} /> 
 			</Stack.Navigator>
 		</NavigationContainer>
 	)
 }
 
-export default Root
+export default RootStackNavigation
