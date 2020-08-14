@@ -15,13 +15,16 @@ import {
 	SET_TODO_TITLE_REQUESTED,
 	CLEAR_TODO_TITLE,
 	CREATE_TODO,
-	CREATE_TODO_REQUESTED
+	CREATE_TODO_REQUESTED,
+	DELETE_TODO,
+	DELETE_TODO_REQUESTED
 } from '../actions/todo-action'
 
 // Api's
 import { 
 	getAllTodos,
-	createNewTodo
+	createNewTodo,
+	deleteExistedTodo
 } from '../api/todo-api'
 
 function* getTodos() {
@@ -45,8 +48,17 @@ function* createTodo({ payload }) {
 	yield put({ type: CLEAR_TODO_TITLE })
 }
 
+function* deleteTodo({ payload }) {
+	yield put({ type: SET_LOADING })
+
+	const deletedTodo = yield call(deleteExistedTodo, payload)
+
+	yield put({ type: DELETE_TODO, payload: deletedTodo })
+}
+
 export default function* todoSaga() {
 	yield takeEvery(GET_TODOS_REQUESTED, getTodos)
 	yield takeEvery(SET_TODO_TITLE_REQUESTED, setTodoTitle)
 	yield takeLatest(CREATE_TODO_REQUESTED, createTodo)
+	yield takeEvery(DELETE_TODO_REQUESTED, deleteTodo)
 }

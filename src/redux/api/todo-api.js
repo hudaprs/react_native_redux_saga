@@ -33,3 +33,17 @@ export const createNewTodo = async (title) => {
 		console.error(err)
 	}
 } 
+
+export const deleteExistedTodo = async (id) => {
+	try {
+		const todo = await fetch(`${URL}/${id}`, {
+			method: 'DELETE'
+		})
+
+		await todo.json()
+
+		return id
+	} catch(err) {
+		console.error(err)
+	}
+}

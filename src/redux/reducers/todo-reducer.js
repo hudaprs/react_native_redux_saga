@@ -3,7 +3,8 @@ import {
 	GET_TODOS,
 	SET_TODO_TITLE,
 	CLEAR_TODO_TITLE,
-	CREATE_TODO
+	CREATE_TODO,
+	DELETE_TODO
 } from '../actions/todo-action'
 
 const initialState = {
@@ -39,6 +40,12 @@ export default (state = initialState, {type, payload}) => {
 			return {
 				...state,
 				todos: [payload, ...state.todos],
+				loading: false
+			}
+		case DELETE_TODO:
+			return {
+				...state,
+				todos: state.todos.filter(todo => todo.id !== payload),
 				loading: false
 			}
 		default:

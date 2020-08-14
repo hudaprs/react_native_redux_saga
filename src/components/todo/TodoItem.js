@@ -8,6 +8,12 @@ import {
 	FlatList
 } from 'react-native'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+// Actions
+import {
+	DELETE_TODO_REQUESTED
+} from '@reduxActions/todo-action'
 
 // Global
 import { globalStyles } from '@globalStyles/global'
@@ -15,13 +21,17 @@ import { globalStyles } from '@globalStyles/global'
 // Icons
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
 
-const TodoItem = ({loading, todos}) => {
+const TodoItem = ({ 
+	loading, 
+	todos,
+	deleteTodo
+}) => {
 	return (
 		<>
 			<Text style={styles.todoItemHeaderText}>
 				Todo List {"\n"}
 
-				{loading && "Loading..."}
+				{loading && "Loading...\n"}
 			</Text>
 
 			<FlatList 
@@ -37,7 +47,7 @@ const TodoItem = ({loading, todos}) => {
 							<Text style={styles.todoItemText}>
 								{item.title}
 							</Text>
-							<TouchableOpacity>
+							<TouchableOpacity onPress={() => deleteTodo(item.id)}>
 								<Icon name='times' size={20} color={'#e74c3c'} />
 							</TouchableOpacity>
 						</TouchableOpacity>
@@ -50,7 +60,8 @@ const TodoItem = ({loading, todos}) => {
 
 TodoItem.propTypes = {
 	loading: PropTypes.bool.isRequired,
-	todo: PropTypes.object
+	todo: PropTypes.object,
+	deleteTodo: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -76,4 +87,8 @@ const styles = StyleSheet.create({
 	}
 })
 
-export default TodoItem
+const mapDispatchToProps = (dispatch) => ({
+	deleteTodo: (id) => dispatch({ type: DELETE_TODO_REQUESTED, payload: id })
+})
+
+export default connect(null, mapDispatchToProps)(TodoItem)
