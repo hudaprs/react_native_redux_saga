@@ -5,13 +5,13 @@ import { createStackNavigator } from '@react-navigation/stack'
 const Stack = createStackNavigator()
 
 // Navigations
-import TodoStack from './TodoStack'
+import BottomTab from './BottomTab'
 
 const Root = () => {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator headerMode="none">
-				<Stack.Screen name="Todo" component={TodoStack} /> 
+				<Stack.Screen name="App" component={BottomTab} /> 
 			</Stack.Navigator>
 		</NavigationContainer>
 	)

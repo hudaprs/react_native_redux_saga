@@ -15,6 +15,9 @@ export const globalStyles = StyleSheet.create({
 		flex: 1,
 		paddingHorizontal: 20,
 	},
+	mt2: {
+		marginTop: 20,
+	},
 	mb2: {
 		marginBottom: 10
 	},
