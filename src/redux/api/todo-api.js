@@ -73,3 +73,27 @@ export const updateExistedTodo = async ({title, current}) => {
 		console.error(err)
 	}
 }
+
+export const checkExistedTodo = async (todo) => {
+	const existedTodo = {
+		id: todo.id,
+		title: todo.title,
+		completed: !todo.completed
+	}
+
+	try {
+		const updatedTodo = await fetch(`${URL}/${todo.id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'Application/json'
+			},
+			body: JSON.stringify(existedTodo)
+		})
+
+		const todoJSON = await updatedTodo.json()
+
+		return todoJSON
+	} catch(err) {
+		console.error(err)
+	}
+}

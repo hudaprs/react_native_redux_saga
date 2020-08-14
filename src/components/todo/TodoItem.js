@@ -5,7 +5,8 @@ import {
 	View,
 	Text,
 	ScrollView,
-	FlatList
+	FlatList,
+	CheckBox
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -25,7 +26,8 @@ const TodoItem = ({
 	loading, 
 	todos,
 	deleteTodo,
-	setCurrent
+	setCurrent,
+	checkTodo
 }) => {
 	return (
 		<>
@@ -53,9 +55,24 @@ const TodoItem = ({
 							>
 								{item.title}
 							</Text>
-							<TouchableOpacity onPress={() => deleteTodo(item.id)}>
-								<Icon name='times' size={20} color={'#e74c3c'} />
-							</TouchableOpacity>
+							<View 
+								style={{
+									flexDirection: 'row',
+									alignItems: 'center',
+								}}
+							>
+								<CheckBox
+									value={item.completed}
+									onValueChange={() => checkTodo(item)}
+									style={{
+										marginRight: 10
+									}}
+							 	/>
+
+								<TouchableOpacity onPress={() => deleteTodo(item.id)}>
+									<Icon name='times' size={20} color={'#e74c3c'} />
+								</TouchableOpacity>
+							</View>
 						</TouchableOpacity>
 					</>
 				)}
@@ -68,7 +85,8 @@ TodoItem.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	todo: PropTypes.object,
 	deleteTodo: PropTypes.func.isRequired,
-	setCurrent: PropTypes.func.isRequired
+	setCurrent: PropTypes.func.isRequired,
+	checkTodo: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

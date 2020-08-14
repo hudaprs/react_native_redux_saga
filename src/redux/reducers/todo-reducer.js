@@ -7,7 +7,8 @@ import {
 	DELETE_TODO,
 	SET_CURRENT,
 	CLEAR_CURRENT,
-	UPDATE_TODO
+	UPDATE_TODO,
+	CHECK_TODO
 } from '../actions/todo-action'
 
 const initialState = {
@@ -67,7 +68,13 @@ export default (state = initialState, {type, payload}) => {
 		case UPDATE_TODO:
 			return {
 				...state,
-				todos: state.todos.map(todo => todo.id == payload.id ? payload : todo),
+				todos: state.todos.map(todo => todo.id === payload.id ? payload : todo),
+				loading: false
+			}
+		case CHECK_TODO:
+			return {
+				...state,
+				todos: state.todos.map(todo => todo.id === payload.id ? payload : todo),
 				loading: false
 			}
 		default:

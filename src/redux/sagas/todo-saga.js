@@ -22,7 +22,9 @@ import {
 	SET_CURRENT_REQUESTED,
 	CLEAR_CURRENT,
 	UPDATE_TODO,
-	UPDATE_TODO_REQUESTED
+	UPDATE_TODO_REQUESTED,
+	CHECK_TODO,
+	CHECK_TODO_REQUESTED
 } from '../actions/todo-action'
 
 // Api's
@@ -30,7 +32,8 @@ import {
 	getAllTodos,
 	createNewTodo,
 	deleteExistedTodo,
-	updateExistedTodo
+	updateExistedTodo,
+	checkExistedTodo
 } from '../api/todo-api'
 
 function* getTodos() {
@@ -75,6 +78,14 @@ function* updateTodo({ payload }) {
 	yield put({ type: CLEAR_CURRENT })
 }
 
+function* checkTodo({ payload }) {
+	yield put({ type: SET_LOADING })
+
+	const updatedTodo = yield call(checkExistedTodo, payload)
+
+	yield put({ type: CHECK_TODO, payload: updatedTodo })
+}
+
 export default function* todoSaga() {
 	yield takeEvery(GET_TODOS_REQUESTED, getTodos)
 	yield takeEvery(SET_TODO_TITLE_REQUESTED, setTodoTitle)
@@ -82,4 +93,5 @@ export default function* todoSaga() {
 	yield takeEvery(DELETE_TODO_REQUESTED, deleteTodo)
 	yield takeEvery(SET_CURRENT_REQUESTED, setCurrent)
 	yield takeLatest(UPDATE_TODO_REQUESTED, updateTodo)
+	yield takeLatest(CHECK_TODO_REQUESTED, checkTodo)
 }
