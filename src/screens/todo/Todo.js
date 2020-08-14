@@ -5,7 +5,9 @@ import PropTypes from 'prop-types'
 
 // Actions
 import {
-	GET_TODOS_REQUESTED
+	GET_TODOS_REQUESTED,
+	SET_CURRENT_REQUESTED,
+	UPDATE_TODO_REQUESTED
 } from '@reduxActions/todo-action'
 
 // Components
@@ -16,7 +18,12 @@ import TodoItem from '@components/todo/TodoItem'
 // Global
 import { globalStyles } from '@globalStyles/global'
 
-const Todo = ({todo: { todos, loading }, getTodos}) => {
+const Todo = ({
+	todo: { todos, loading, current }, 
+	getTodos,
+	setCurrent,
+	updateTodo
+}) => {
 	useEffect(() => {
 		getTodos()
 
@@ -25,15 +32,24 @@ const Todo = ({todo: { todos, loading }, getTodos}) => {
 
 	return (
 		<MainLayout>
-			<TodoForm />
-			<TodoItem loading={loading} todos={todos} />
+			<TodoForm 
+				current={current}
+				updateTodo={updateTodo} 
+			/>
+			<TodoItem 
+				loading={loading} 
+				todos={todos} 
+				setCurrent={setCurrent}
+			/>
 		</MainLayout>
 	)
 }
 
 Todo.propTypes = {
 	todo: PropTypes.object,
-	getTodos: PropTypes.func.isRequired
+	getTodos: PropTypes.func.isRequired,
+	setCurrent: PropTypes.func.isRequired,
+	updateTodo: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -41,7 +57,11 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-	getTodos: () => dispatch({type: GET_TODOS_REQUESTED })
+	getTodos: () => dispatch({ type: GET_TODOS_REQUESTED }),
+	setCurrent: (current) => dispatch({ type: SET_CURRENT_REQUESTED, payload: current }),
+	updateTodo: 
+		({title, current}) => 
+			dispatch({ type: UPDATE_TODO_REQUESTED, payload: { title, current } })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo)

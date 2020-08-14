@@ -32,7 +32,7 @@ export const createNewTodo = async (title) => {
 	} catch(err) {
 		console.error(err)
 	}
-} 
+}
 
 export const deleteExistedTodo = async (id) => {
 	try {
@@ -43,6 +43,32 @@ export const deleteExistedTodo = async (id) => {
 		await todo.json()
 
 		return id
+	} catch(err) {
+		console.error(err)
+	}
+}
+
+export const updateExistedTodo = async ({title, current}) => {
+	const { id, completed } = current 
+
+	const updatedTodo = {
+		id,
+		title,
+		completed
+	}
+
+	try {
+		const todo = await fetch(`${URL}/${id}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'Application/json'
+			},
+			body: JSON.stringify(updatedTodo)
+		})
+
+		const todoJSON = await todo.json()
+
+		return todoJSON
 	} catch(err) {
 		console.error(err)
 	}

@@ -4,13 +4,17 @@ import {
 	SET_TODO_TITLE,
 	CLEAR_TODO_TITLE,
 	CREATE_TODO,
-	DELETE_TODO
+	DELETE_TODO,
+	SET_CURRENT,
+	CLEAR_CURRENT,
+	UPDATE_TODO
 } from '../actions/todo-action'
 
 const initialState = {
 	loading: false,
 	todos: [],
-	title: ''
+	title: '',
+	current: null
 }
 
 export default (state = initialState, {type, payload}) => {
@@ -46,6 +50,24 @@ export default (state = initialState, {type, payload}) => {
 			return {
 				...state,
 				todos: state.todos.filter(todo => todo.id !== payload),
+				loading: false
+			}
+		case SET_CURRENT:
+			return {
+				...state,
+				current: payload,
+				title: payload.title
+			}
+		case CLEAR_CURRENT:
+			return {
+				...state,
+				current: null,
+				title: ''
+			}
+		case UPDATE_TODO:
+			return {
+				...state,
+				todos: state.todos.map(todo => todo.id == payload.id ? payload : todo),
 				loading: false
 			}
 		default:

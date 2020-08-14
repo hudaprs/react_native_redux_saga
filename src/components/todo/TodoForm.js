@@ -17,9 +17,24 @@ import {
 // Global
 import { globalStyles } from '@globalStyles/global'
 
-const TodoForm = ({title, setTodoTitle, createNewTodo}) => {
+const TodoForm = ({
+	title, 
+	setTodoTitle, 
+	createNewTodo,
+	updateTodo,
+	current
+}) => {
 	const onPress = () => {
-		createNewTodo(title)
+		if (title === '') {
+			window.alert('Please fill the form')
+			return false
+		}
+
+		if(current) {
+			updateTodo({title, current})
+		} else {
+			createNewTodo(title)
+		}
 	}
 
 	return (
@@ -31,7 +46,7 @@ const TodoForm = ({title, setTodoTitle, createNewTodo}) => {
 				placeholder="What needs to be done..." />
 			<TouchableOpacity style={globalStyles.btn} onPress={onPress}>
 				<Text style={globalStyles.btnText}>
-					Save
+					{current ? 'Update' : 'Save'}
 				</Text>
 			</TouchableOpacity>
 		</View>
@@ -39,7 +54,8 @@ const TodoForm = ({title, setTodoTitle, createNewTodo}) => {
 }
 
 TodoForm.propTypes = {
-	setTodoTitle: PropTypes.func.isRequired
+	setTodoTitle: PropTypes.func.isRequired,
+	current: PropTypes.object
 }
 
 const mapStateToProps = (state) => ({

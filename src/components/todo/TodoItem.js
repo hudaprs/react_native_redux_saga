@@ -24,7 +24,8 @@ import Icon from 'react-native-vector-icons/dist/FontAwesome'
 const TodoItem = ({ 
 	loading, 
 	todos,
-	deleteTodo
+	deleteTodo,
+	setCurrent
 }) => {
 	return (
 		<>
@@ -43,8 +44,13 @@ const TodoItem = ({
 				showsVerticalScrollIndicator={false}
 				renderItem={({item}) => (
 					<>
-						<TouchableOpacity style={styles.todoItem}>
-							<Text style={styles.todoItemText}>
+						<TouchableOpacity style={styles.todoItem} onPress={() => setCurrent(item)}>
+							<Text 
+								style={[
+									styles.todoItemText, 
+									item.completed ? styles.todoItemCompleted : ''
+								]}
+							>
 								{item.title}
 							</Text>
 							<TouchableOpacity onPress={() => deleteTodo(item.id)}>
@@ -61,7 +67,8 @@ const TodoItem = ({
 TodoItem.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	todo: PropTypes.object,
-	deleteTodo: PropTypes.func.isRequired
+	deleteTodo: PropTypes.func.isRequired,
+	setCurrent: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -84,6 +91,9 @@ const styles = StyleSheet.create({
 		color: '#555',
 		fontSize: 14,
 		width: '80%'
+	},
+	todoItemCompleted: {
+		textDecorationLine: 'line-through'
 	}
 })
 
